@@ -1,0 +1,12 @@
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/ricolito1994/frontend.git
+[submodule "ip-manager-service"]
+	path = ip-manager-service
+	url = https://github.com/ricolito1994/ip-manager-service
+[submodule "gateway-service"]
+	path = gateway-service
+	url = https://github.com/ricolito1994/gateway-service
+[submodule "auth-service"]
+	path = auth-service
+	url = https://github.com/ricolito1994/auth-service

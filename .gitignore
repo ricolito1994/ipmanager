@@ -1,0 +1,18 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Docker temp / env
+*.env
+docker-compose.override.yml
+
+# Submodule build folders (don't ignore submodule itself)
+**/node_modules/
+**/vendor/
+**/dist/
+**/build/
