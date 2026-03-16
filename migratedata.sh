@@ -2,6 +2,7 @@
 
 set -e
 
+# be sure to install docker
 # run this after installation
 # add additional setup for each microservice
 
@@ -20,12 +21,12 @@ do
   echo "Permissions for $SERVICE"
   echo "------------------------------"
 
-  docker exec $SERVICE chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+  docker exec $SERVICE sh -c "chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache"
 
   echo "Generate .env files in $SERVICE"
 
-  if ! docker exec $SERVICE test -f /var/www/html/.env; then
-    if ! docker exec $SERVICE test -f /var/www/html/.env.example; then
+  if ! docker exec $SERVICE sh -c "[ -f .env ]"; then
+    if ! docker exec $SERVICE sh -c "[ -f .env.example ]"; then
       echo "No .env.example found in $SERVICE."
       exit 1;
     fi
