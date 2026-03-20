@@ -9,7 +9,7 @@
 <ul>
   <li>Ip Manager Service - main CRUD service for managing IP addresses.</li>
   <li>Gateway Service - main routing service for inter-service communication. Utilized backend async processes using guzzle.</li>
-  <li>Auth Service - main role is for authentication microservice of the app.</li>
+  <li>Auth Service - main role is for authentication microservice of the app. Utilize JWT for access purposes.</li>
 </ul>
 
 <hr />
