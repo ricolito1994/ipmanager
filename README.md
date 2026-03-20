@@ -24,7 +24,7 @@
 
 <h2>Installation</h2>
 <ol>
-  <li>clone the repository</li>
+  <li>clone the repository <code>git clone --recursive <gitrepo></code></li>
   <li>cd to ipmanager <code>cd ipmanager</code></li>
   <li>run <code>docker compose --build --no-cache</code></li>
   <li>to activate the containers <code>docker compose up -d</code></li>
