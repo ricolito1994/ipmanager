@@ -11,6 +11,6 @@ CREATE USER IF NOT EXISTS 'gateway'@'%' IDENTIFIED WITH mysql_native_password BY
 GRANT ALL PRIVILEGES ON gateway_db.* TO 'gateway'@'%';
 
 CREATE USER IF NOT EXISTS 'ipmanager'@'%' IDENTIFIED WITH mysql_native_password BY 'ipmanagerpass';
-GRANT ALL PRIVILEGES ON gateway_db.* TO 'ipmanager'@'%';
+GRANT ALL PRIVILEGES ON ipmanager_db.* TO 'ipmanager'@'%';
 
 FLUSH PRIVILEGES;

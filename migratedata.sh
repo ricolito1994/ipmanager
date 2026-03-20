@@ -34,6 +34,13 @@ do
     docker exec $SERVICE cp .env.example .env
   fi
 
+  # if docker exec $SERVICE sh -c "[ -f .env ]"; then
+  #  export $(docker exec $SERVICE sh -c "$(grep -v '^#' .env | xargs)")
+  # else
+  #  echo "No .env file found !"
+  #  exit 1
+  # fi
+
   # JWT should be enabled/installed in each service
   # SHARE the generated JWT secret to each service
 
@@ -47,34 +54,46 @@ do
 
   echo "Synch complete .."
 
+  DB_DATABASE=$(docker exec $SERVICE grep "^DB_DATABASE=" //var/www/html/.env | cut -d '=' -f2 | tr -d '\r')
+  DB_HOST=$(docker exec $SERVICE grep "^DB_HOST=" //var/www/html/.env | cut -d '=' -f2 | tr -d '\r')
+  DB_PORT=$(docker exec $SERVICE grep "^DB_PORT=" //var/www/html/.env | cut -d '=' -f2 | tr -d '\r')
+
   echo "------------------------------"
-  echo "Testing DB connection for $SERVICE"
+  echo "Testing DB connection for $SERVICE $DB_DATABASE:$DB_PORT"
   echo "------------------------------"
 
-  if docker exec $SERVICE php artisan migrate:status > /dev/null 2>&1
-  then
-        docker exec $SERVICE php artisan route:clear
-        docker exec $SERVICE php artisan cache:clear
+  MAXTRIES=3
+  NUMTRIES=0
 
-        echo "Generating key for $SERVICE"
+  until docker exec $SERVICE sh -c "nc -z '$DB_HOST' '$DB_PORT'"; do
+    NUMTRIES=$(NUMTRIES+1)
 
-        docker exec $SERVICE php artisan key:generate
+    if [ "$NUMTRIES" -ge "$MAXTRIES" ]; then
+      echo "Cannot connect to db $DB_DATABASE ..."
+      exit 1;
+    fi
 
-        echo "DB connection OK for $SERVICE"
+    echo "Connecting to $DB_DATABASE ... $NUMTRIES/$MAXTRIES retrying for 3s."
+    sleep 3
+  done
 
-        echo "Running migrations..."
-        docker exec $SERVICE php artisan migrate --force
+  docker exec $SERVICE php artisan route:clear
+  docker exec $SERVICE php artisan cache:clear
 
-        echo "Running seeders..."
-        docker exec $SERVICE php artisan db:seed
+  echo "Generating key for $SERVICE"
 
-        echo "Optimize services..."
-        docker exec $SERVICE php artisan optimize
+  docker exec $SERVICE php artisan key:generate
 
-  else
-      echo "DB connection FAILED for $SERVICE"
-      exit 1
-  fi
+  echo "DB connection OK for $SERVICE"
+
+  echo "Running migrations..."
+  docker exec $SERVICE php artisan migrate --force
+
+  echo "Running seeders..."
+  docker exec $SERVICE php artisan db:seed
+
+  echo "Optimize services..."
+  docker exec $SERVICE php artisan optimize
   
 done
 
