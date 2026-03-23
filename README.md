@@ -31,3 +31,7 @@
   <li>after installation run on your git bash terminal <code>./migratedata.sh</code> everything will install/setup including mysql db and migration</li>
 </ol>
 
+## TEST
+- open git bash
+- run ./tests.sh
+- runs test cases for each microservices
