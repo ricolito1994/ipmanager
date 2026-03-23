@@ -22,6 +22,10 @@
   <li>Composer</li>
 </ul>
 
+## Sample users
+- for Super Admin: username: superadmin, password: superadmin
+- for user: username: user1, password: user1
+
 <h2>Installation</h2>
 <ol>
   <li>clone the repository <code>git clone --recurse-modules <gitrepo></code></li>
