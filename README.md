@@ -35,6 +35,9 @@
   <li>after installation run on your git bash terminal <code>./migratedata.sh</code> everything will install/setup including mysql db and migration</li>
 </ol>
 
+## FRONTEND
+- installation instructions are found <a href='https://github.com/ricolito1994/frontend/tree/ee9c5c347419d0269c440dd71aa748d5a12b2d2c'>here</a>
+
 ## TEST
 - open git bash
 - run ./tests.sh
