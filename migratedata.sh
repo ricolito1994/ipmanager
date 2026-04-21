@@ -6,11 +6,13 @@ set -e
 # run this after installation
 # add additional setup for each microservice
 
-SERVICES="
-ipmanager-auth-service-1
-ipmanager-gateway-service-1
-ipmanager-ip-manager-service-1
-"
+# SERVICES="
+# ipmanager-auth-service-1
+# ipmanager-gateway-service-1
+# ipmanager-ip-manager-service-1
+# "
+
+SERVICES=$(docker ps -a --format "{{.Names}}" | grep '-service' | grep 'ipmanager')
 
 # generate a JWT secret hash value for all services
 SHARED_JWT_SECRET=$(openssl rand -base64 48)
