@@ -36,6 +36,8 @@ do
     docker exec $SERVICE cp .env.example .env
   fi
 
+  docker exec $SERVICE sh -c "composer install"
+
   # if docker exec $SERVICE sh -c "[ -f .env ]"; then
   #  export $(docker exec $SERVICE sh -c "$(grep -v '^#' .env | xargs)")
   # else
@@ -68,7 +70,7 @@ do
   NUMTRIES=0
 
   until docker exec $SERVICE sh -c "nc -z '$DB_HOST' '$DB_PORT'"; do
-    NUMTRIES=$(NUMTRIES+1)
+    NUMTRIES=$((NUMTRIES+1))
 
     if [ "$NUMTRIES" -ge "$MAXTRIES" ]; then
       echo "Cannot connect to db $DB_DATABASE ..."
